@@ -1,16 +1,19 @@
 package employee;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class Employee_01_CreateEmployee {
+    WebDriver driver;
     @BeforeClass
     public void beforeClass() {
-
+        driver = new EdgeDriver();
     }
 
     @Test
     public void Employee_01_NewEmployee(){
+        driver.get();
 
     }
 
