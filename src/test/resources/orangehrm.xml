@@ -3,9 +3,12 @@
 
 <suite name="Orange HRM">
 
-    <test name="Run on Chrome" preserve-order="true">
+    <parameter name="url" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
+
+    <test name="Run on FIREFOX" preserve-order="true">
+        <parameter name="browser" value="Firefox"/>
         <classes>
-            <class name="employee.Employee_01_CreateEmployee"/>
+            <class name="employee.Level_04_PageObjectPattern"/>
         </classes>
     </test>
 
