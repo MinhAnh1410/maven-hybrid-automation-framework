@@ -3,12 +3,15 @@
 
 <suite name="Orange HRM">
 
-    <parameter name="url" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
+<!--    <parameter name="url" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>-->
+
+    <parameter name="UserUrl" value="https://live.techpanda.org/"/>
+    <parameter name="AdminUrl" value="https://live.techpanda.org/backendlogin"/>
 
     <test name="Run on FIREFOX" preserve-order="true">
-        <parameter name="browser" value="Firefox"/>
+        <parameter name="Browser" value="Firefox"/>
         <classes>
-            <class name="employee.Level_04_PageObjectPattern"/>
+            <class name="techpanda.Level_09_Page_URL"/>
         </classes>
     </test>
 

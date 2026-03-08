@@ -1,12 +1,10 @@
 package pageFactory.orangehrm;
 
-import core.BasePage;
 import core.BasePageFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import pageUIs.orangehrm.PersonalDetailUI;
 
 public class PersonalDetailPO extends BasePageFactory {
     private WebDriver driver;

@@ -1,12 +1,8 @@
-package employee;
+package orangehrm.employee;
 
 import core.BasePage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -14,7 +10,7 @@ import org.testng.annotations.Test;
 import java.time.Duration;
 import java.util.Random;
 
-public class Level_02_BasePage_I {
+public class Level_02_BasePage_II {
 
     //Declare (Khai bao)
     private WebDriver driver;
@@ -24,10 +20,9 @@ public class Level_02_BasePage_I {
     @BeforeClass
     public void beforeClass() {
 
-        // Init (khoi tao)
         driver = new FirefoxDriver();
-        basePage = new BasePage();
-        // dùng được những thuộc tính và phương thức của class đó
+        basePage = BasePage.getBasePage();
+        // không cần khởi tạo với phương thức khai báo static mà dùng được những thuộc tính và phương thức của class đó
 
         firstName = "Peter";
         lastName = "Crouch";
@@ -42,7 +37,7 @@ public class Level_02_BasePage_I {
     }
 
     @Test
-    public void Employee_01_NewEmployee() throws InterruptedException {
+    public void Employee_01_NewEmployee(){
         basePage.openPageUrl(driver, "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 
         // Login

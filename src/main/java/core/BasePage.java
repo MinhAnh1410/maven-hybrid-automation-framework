@@ -6,6 +6,14 @@ import org.openqa.selenium.support.Color;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageObjects.PageGeneration;
+import pageObjects.orangehrm.myInfo.ContactDetailPO;
+import pageObjects.orangehrm.myInfo.DependentPO;
+import pageObjects.orangehrm.myInfo.JobPO;
+import pageObjects.orangehrm.myInfo.PersonalDetailPO;
+import pageObjects.techpanda.admin.AdminLoginPO;
+import pageObjects.techpanda.user.UserHomePO;
+import pageUIs.orangehrm.BasePageUI;
 
 import java.time.Duration;
 import java.util.List;
@@ -335,7 +343,16 @@ public class BasePage {
         return waitListElementInvisible(driver,"//div[contains(@class,'oxd-loading-spinner')]");
     }
 
+    public AdminLoginPO openAdminPage(WebDriver driver , String adminUrl) {
+        openPageUrl(driver, adminUrl);
+        return PageGeneration.getPage(AdminLoginPO.class,driver);
+    }
+
+    public UserHomePO openUserPage(WebDriver driver, String userUrl) {
+        openPageUrl(driver, userUrl);
+        return PageGeneration.getPage(UserHomePO.class, driver);
+    }
+
     private Duration shortTimeout = Duration.ofSeconds(10);
     private Duration longTimeout = Duration.ofSeconds(30);
-
 }

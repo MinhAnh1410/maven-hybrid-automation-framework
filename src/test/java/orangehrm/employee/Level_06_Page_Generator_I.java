@@ -1,4 +1,4 @@
-package employee;
+package orangehrm.employee;
 
 import core.BasePage;
 import core.BaseTest;
@@ -9,10 +9,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import pageObjects.orangehrm.*;
+import pageObjects.orangehrm.myInfo.PersonalDetailPO;
 
-import java.util.Random;
-
-public class Level_04_PageObjectPattern extends BaseTest {
+public class Level_06_Page_Generator_I extends BaseTest {
     private WebDriver driver;
     private BasePage basePage = BasePage.getBasePage();
     private LoginPO loginPage;
@@ -32,14 +31,16 @@ public class Level_04_PageObjectPattern extends BaseTest {
 
         firstName = "Peter";
         lastName = "Crouch";
-        adminUsername = "automationfc";
-        adminPassword = "Auto222$$$";
+        adminUsername = "Admin";
+        adminPassword = "admin123";
         fullName = firstName + " " + lastName;
         emailAddress = "peter" + getRandomNumber() + "@hotmail.com";
         password = "Testing111###";
         passportNumber = "43176122";
         passportComment = "Assigned Imigration\nRecords";
 
+        // cách 1: (đang áp dụng) cứ chuyển trang theo business là khởi tạo trang mới
+        // khởi tạo rõ trong class vi phạm Bad Practive trong lập trình: khởi tạo trực tiếp 1 page object trong test class
         loginPage = new LoginPO(driver);
     }
 
@@ -97,6 +98,10 @@ public class Level_04_PageObjectPattern extends BaseTest {
         Assert.assertEquals(personalDetailPage.getFirstnameTextboxValue(), firstName);
         Assert.assertEquals(personalDetailPage.getLastnameTextboxValue(), lastName);
         Assert.assertEquals(personalDetailPage.getEmployeeTextboxValue(), employeeID);
+
+        /* ============== Personal Detail Page - 02 ============= */
+        personalDetailPage.clickToEmployeeListButton();
+        employeeListPage = new EmployeeListPO(driver);
     }
 
     @AfterClass

@@ -51,7 +51,7 @@ public class BasePageFactory {
 
     public WebElement waitListElementVisible(WebDriver driver, List<WebElement> elements) {
         return new WebDriverWait(driver, longTimeout)
-                .until(ExpectedConditions.visibilityOf(elements));
+                .until(ExpectedConditions.visibilityOf((WebElement) elements));
     }
 
     public boolean waitElementInvisible(WebDriver driver, WebElement element) {
@@ -69,11 +69,18 @@ public class BasePageFactory {
                 .until(ExpectedConditions.elementToBeClickable(element));
     }
 
-//    public boolean isLoadingIconDisappear(WebDriver driver) {
-//        return waitListElementInvisible(driver,"//div[contains(@class,'oxd-loading-spinner')]");
-//    }
+    public boolean isLoadingIconDisappear(WebDriver driver) {
+        return waitListElementInvisible(driver,driver.findElements(By.cssSelector("//div[contains(@class,'oxd-loading-spinner')]")));
+    }
+
+    public void sleepInSecond (long timeInSecond) {
+        try {
+            Thread.sleep(timeInSecond *1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private Duration shortTimeout = Duration.ofSeconds(10);
     private Duration longTimeout = Duration.ofSeconds(30);
-
 }

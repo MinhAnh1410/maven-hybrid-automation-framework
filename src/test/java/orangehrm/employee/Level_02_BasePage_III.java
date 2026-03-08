@@ -1,4 +1,4 @@
-package employee;
+package orangehrm.employee;
 
 import core.BasePage;
 import org.openqa.selenium.WebDriver;

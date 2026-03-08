@@ -2,6 +2,8 @@ package pageObjects.orangehrm;
 
 import core.BasePage;
 import org.openqa.selenium.WebDriver;
+import pageObjects.PageGeneration;
+import pageObjects.PageGenerator;
 import pageUIs.orangehrm.LoginUI;
 
 public class LoginPO extends BasePage {
@@ -27,8 +29,17 @@ public class LoginPO extends BasePage {
         sendkeyToElement(driver, LoginUI.PASSWORD_TEXTBOX, password);
     }
 
-    public void clickToLoginButton() {
+    public DashboardPO clickToLoginButton() {
         waitElementClickable(driver, LoginUI.LOGIN_BUTTON);
         clickToElement(driver, LoginUI.LOGIN_BUTTON);
+
+        //  cách 2: (Page_Generator_II) khởi tạo ngay tại action cuối cùng của page cũ để chuyển sang page mới
+        // return new DashboardPO(driver);
+
+        //  cách 3: (Page_Generator_III) khởi tạo bằng hàm trong class chứa các hàm khởi tạo page
+        // return PageGenerator.getDashboardPage(driver);
+
+        // cách 4: Viết hàm java generic để truyền PO vào khởi tạo
+        return PageGeneration.getPage(DashboardPO.class, driver);
     }
 }
