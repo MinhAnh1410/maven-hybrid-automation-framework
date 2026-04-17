@@ -10,23 +10,26 @@ import org.testng.annotations.Test;
 import pageObjects.PageGeneration;
 import pageObjects.techpanda.admin.AdminLoginPO;
 import pageObjects.techpanda.admin.AdminManageCustomerPO;
+import pageObjects.techpanda.admin.AdminOrderPO;
 import pageObjects.techpanda.user.UserHomePO;
 import pageObjects.techpanda.user.UserLoginPO;
 import pageObjects.techpanda.user.UserMyAccountPO;
 
-public class Level_09_Page_URL extends BaseTest {
+public class Level_09_Page_URL_II extends BaseTest {
     private WebDriver driver;
     private String adminUrl, userUrl;
+    private String userWindowID, adminWindowID;
 
     @Parameters ({"Browser","UserUrl", "AdminUrl"})
     @BeforeClass
     public void beforeClass(String browserName, String userUrl, String adminUrl) {
         driver = getBrowserDriver(browserName, userUrl);
 
-        this.adminUrl =userUrl;
-        this.userUrl = adminUrl;
+        this.userUrl = userUrl;
+        this.adminUrl = adminUrl;
         userHomePage = PageGeneration.getPage(UserHomePO.class, driver);
     }
+
 
     @Test
     public void Navigate_01_No_Logout(){
@@ -37,23 +40,33 @@ public class Level_09_Page_URL extends BaseTest {
 
         Assert.assertTrue(userMyAccountPage.isDashboardTitleDisplay());
 
+        userWindowID =userMyAccountPage.getCurrentWindowID(driver);
 
+        // mở 1 tab mới cho trang Admin
+        userMyAccountPage.switchToNewTabByUrl(driver, adminUrl);
+        adminLoginPage = PageGeneration.getPage(AdminLoginPO.class, driver);
 
-        // User -> Admin
-        adminLoginPage = userMyAccountPage.openAdminPage(driver, adminUrl);
+        adminWindowID = adminLoginPage.getCurrentWindowID(driver);
 
+        // thực hiện log in tại admin
         adminLoginPage.enterToUsername("user01");
         adminLoginPage.enterToPassword("guru99com");
         adminManageCustomerPage = adminLoginPage.clickLoginButton();
         adminManageCustomerPage.closeIncomingMessage();
 
-        // User -> Admin
-        userHomePage = adminManageCustomerPage.openUserPage(driver, userUrl);
+        adminOrderPage = adminManageCustomerPage.openOrderPage(driver);
 
-    }
+        // nhảy về tab chứa end user
+        adminOrderPage.switchToWindowByID(driver, adminWindowID);
 
-    @Test
-    public void Navigate_02_Logout(){
+        // log out user
+        userHomePage = userMyAccountPage.logoutToUserPage(driver);
+
+        // nhảy qua tab chứa trang admin
+        userHomePage.switchToWindowByID(driver, userWindowID);
+
+        // log out admin
+        userHomePage.logoutToAdminPage(driver);
 
     }
 
@@ -67,4 +80,5 @@ public class Level_09_Page_URL extends BaseTest {
     private UserLoginPO userLoginPage;
     private UserHomePO userHomePage;
     private UserMyAccountPO userMyAccountPage;
+    private AdminOrderPO adminOrderPage;
 }

@@ -7,6 +7,7 @@ import pageUIs.orangehrm.myInfo.MyInfoPageUI;
 
 public class MyInfoPO extends BasePage {
     private WebDriver driver;
+    private MyInfoPO myInfoPage;
 
     public MyInfoPO(WebDriver driver) {
         this.driver = driver;
@@ -34,6 +35,36 @@ public class MyInfoPO extends BasePage {
         waitElementClickable( driver, MyInfoPageUI.PERSONAL_DETAIL_LINK);
         clickToElement(driver, MyInfoPageUI.PERSONAL_DETAIL_LINK);
         return PageGeneration.getPage(PersonalDetailPO.class, driver);
+    }
+
+    // ít page
+    public MyInfoPO openMyInfoPageByName(String pageName) {
+        waitElementClickable( driver, MyInfoPageUI.MY_INFO_LINK_BY_NAME, pageName);
+        clickToElement(driver, MyInfoPageUI.MY_INFO_LINK_BY_NAME, pageName);
+
+        switch (pageName) {
+            case "Personal Details":
+                myInfoPage = PageGeneration.getPage(PersonalDetailPO.class, driver);
+                break;
+            case "Contact Details":
+                myInfoPage = PageGeneration.getPage(ContactDetailPO.class, driver);
+                break;
+            case "Job":
+                myInfoPage = PageGeneration.getPage(JobPO.class, driver);
+                break;
+            case "Dependents":
+                myInfoPage = PageGeneration.getPage(DependentPO.class, driver);
+                break;
+            default:
+                throw new RuntimeException("Page name is not correct!");
+        }
+        return myInfoPage;
+    }
+
+    // nhiều page
+    public void openMyInfoPageByPageName(String pageName) {
+        waitElementClickable( driver, MyInfoPageUI.MY_INFO_LINK_BY_NAME, pageName);
+        clickToElement(driver, MyInfoPageUI.MY_INFO_LINK_BY_NAME, pageName);
     }
 
 }
