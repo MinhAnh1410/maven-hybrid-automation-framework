@@ -3,7 +3,7 @@
 
 <suite name="Orange HRM">
     <listeners>
-        <listener class-name="reportConfigs.MethodListener"></listener>
+<!--        <listener class-name="reportConfigs.MethodListener"></listener>-->
         <listener class-name="reportConfigs.ExtentReportListener"></listener>
 
     </listeners>
@@ -16,7 +16,7 @@
     <test name="Run on FIREFOX" preserve-order="true">
         <parameter name= "Browser" value="Firefox"/>
         <classes>
-            <class name="orangehrm.employee.Level_14_Logging"/>
+            <class name="orangehrm.employee.Level_15_ReportHTML"/>
         </classes>
     </test>
 
