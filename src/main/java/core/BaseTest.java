@@ -1,5 +1,6 @@
 package core;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -12,7 +13,17 @@ import java.time.Duration;
 import java.util.Random;
 
 public class BaseTest {
+
     private WebDriver driver;
+    protected final Logger log;
+
+    public BaseTest() {
+        log = LogManager.getLogger(getClass());
+    }
+
+    public WebDriver getDriver() {
+        return driver;
+    }
 
     protected WebDriver getBrowserDriver(String browserName){
         BrowserList browserList = BrowserList.valueOf(browserName.toUpperCase());
@@ -52,6 +63,8 @@ public class BaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
         driver.manage().window().maximize();
         driver.get(url);
+
+        log.info("Init browser and driver successfully");
         return driver;
     }
 
@@ -76,10 +89,12 @@ public class BaseTest {
         boolean pass = true;
         try {
             Assert.assertFalse(condition);
+            log.info("-------- VERIFY PASSED ----------");
         } catch (Throwable exception) {
             pass = false;
             VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), exception);
             Reporter.getCurrentTestResult().setThrowable(exception);
+            log.info("-------- VERIFY FAILED ----------");
         }
         return pass;
     }
@@ -88,10 +103,12 @@ public class BaseTest {
         boolean pass = true;
         try {
             Assert.assertEquals(actual, expected);
+            log.info("-------- VERIFY PASSED ----------");
         } catch (Throwable exception) {
             pass = false;
             VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), exception);
             Reporter.getCurrentTestResult().setThrowable(exception);
+            log.info("-------- VERIFY FAILED ----------");
         }
         return pass;
     }
@@ -100,10 +117,12 @@ public class BaseTest {
         boolean pass = true;
         try {
             Assert.assertNotEquals(actual, expected);
+            log.info("-------- VERIFY PASSED ----------");
         } catch (Throwable exception) {
             pass = false;
             VerificationFailures.getFailures().addFailureForTest(Reporter.getCurrentTestResult(), exception);
             Reporter.getCurrentTestResult().setThrowable(exception);
+            log.info("-------- VERIFY FAILED ----------");
         }
         return pass;
     }

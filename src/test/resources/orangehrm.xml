@@ -4,8 +4,8 @@
 <suite name="Orange HRM">
     <listeners>
         <listener class-name="reportConfigs.MethodListener"></listener>
-        <listener class-name="org.testng.reporters.TestHTMLReporter"></listener>
-        <listener class-name="org.testng.reporters.EmailableReporter2"></listener>
+        <listener class-name="reportConfigs.ExtentReportListener"></listener>
+
     </listeners>
 
     <parameter name="Url" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
@@ -16,7 +16,7 @@
     <test name="Run on FIREFOX" preserve-order="true">
         <parameter name= "Browser" value="Firefox"/>
         <classes>
-            <class name="orangehrm.employee.Level_13_Assert_Verify"/>
+            <class name="orangehrm.employee.Level_14_Logging"/>
         </classes>
     </test>
 

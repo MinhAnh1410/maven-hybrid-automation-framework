@@ -19,7 +19,7 @@ import pageObjects.orangehrm.myInfo.DependentPO;
 import pageObjects.orangehrm.myInfo.JobPO;
 import pageObjects.orangehrm.myInfo.PersonalDetailPO;
 
-public class Level_13_Assert_Verify extends BaseTest {
+public class Level_14_Logging extends BaseTest {
     private WebDriver driver;
     private BasePage basePage = BasePage.getBasePage();
     private String adminUsername, adminPassword;
@@ -48,58 +48,84 @@ public class Level_13_Assert_Verify extends BaseTest {
     @Test
     public void Employee_01_NewEmployee() {
 
-        /* ============== Login Page ============= */
+        log.info("NewEmployee - Step 01: Enter to Username textbox with value is '"+ adminUsername + "'");
         loginPage.enterToUsernameTextbox(adminUsername);
+
+        log.info("NewEmployee - Step 02: Enter to Password textbox with value is '"+ adminPassword + "'");
         loginPage.enterToPasswordTextbox(adminPassword);
 
-        /* ============== Dashboard Page ============= */
+        log.info("NewEmployee - Step 03: Click to Login button");
         dashboardPage = loginPage.clickToLoginButton();
 
+        log.info("NewEmployee - Step 04: Verify loading icon invisible");
         verifyTrue(dashboardPage.isLoadingIconDisappear(driver));
-        verifyTrue(dashboardPage.isDashboardHeaderDisplayed());
 
-        /* ============== Employee Page ============= */
+        log.info("NewEmployee - Step 05: Verify Dashboard header is displayed");
+        verifyFalse(dashboardPage.isDashboardHeaderDisplayed()); // lỗi
+
+        log.info("NewEmployee - Step 06: Click to PIM menu link");
         employeeListPage = dashboardPage.clickToPIMModule();
 
+        log.info("NewEmployee - Step 07: Verify loading icon invisible");
         verifyTrue(employeeListPage.isLoadingIconDisappear(driver));
-        verifyTrue(employeeListPage.isPIMHeaderDisplayed());
 
-        employeeListPage.clickToAddEmployeeButton();
+        log.info("NewEmployee - Step 08: Verify PIM header is displayed");
+        verifyFalse(employeeListPage.isPIMHeaderDisplayed()); // lỗi
+
     }
 
     @Test
-    public void Employee_02_NewEmployee() {
+    public void Employee_02_ViewEmployee() {
 
-        /* ============== Add Employee Page ============= */
+        log.info("ViewEmployee - Step 01: Click to Employee List menu link");
         addEmployeePage = employeeListPage.clickToAddEmployeeButton();
 
+        log.info("ViewEmployee - Step 02: Verify loading icon invisible");
         Assert.assertTrue(addEmployeePage.isLoadingIconDisappear(driver));
 
+        log.info("ViewEmployee - Step 03: Enter to First name textbox with value is '"+ firstName + "'");
         addEmployeePage.enterToFirstNameTextbox(firstName);
+
+        log.info("ViewEmployee - Step 04: Enter to First name textbox with value is '"+ lastName + "'");
         addEmployeePage.enterToLastNameTextbox(lastName);
 
+        log.info("ViewEmployee - Step 05: Get Employee ID value");
         employeeID = addEmployeePage.getEmployeeIDValue();
 
+        log.info("ViewEmployee - Step 06: Click to Create Login Details checkbox");
         addEmployeePage.clickToCreateLoginDetailCheckbox();
         addEmployeePage.sleepInSecond(2);
 
+        log.info("ViewEmployee - Step 07: Enter to Email textbox with value is '"+ emailAddress + "'");
         addEmployeePage.enterToUsernameTextbox(emailAddress);
+
+        log.info("ViewEmployee - Step 08: Enter to Password textbox with value is '"+ password + "'");
         addEmployeePage.enterToPasswordTextbox(password);
+
+        log.info("ViewEmployee - Step 09: Enter to Confirm Password textbox with value is '"+ password + "'");
         addEmployeePage.enterToConfirmPasswordTextbox(password);
 
+        log.info("ViewEmployee - Step 10: Click to Save button");
         addEmployeePage.clickToSaveButton();
         addEmployeePage.sleepInSecond(2);
 
+        log.info("ViewEmployee - Step 11: Verify Successfully Saved message is displayed");
         verifyFalse(addEmployeePage.isSuccessfullySaveMessageDisplayed()); // lỗi
 
-        /* ============== Personal Detail Page ============= */
+        log.info("ViewEmployee - Step 12: Navigate to Personal Details page");
         personalDetailPage = PageGenerator.getPersonalDetailPage(driver);
 
+        log.info("ViewEmployee - Step 13: Verify loading icon invisible");
         verifyTrue(personalDetailPage.isLoadingIconDisappear(driver));
         verifyTrue(personalDetailPage.isLoadingIconDisappear(driver));
 
-        verifyEquals(personalDetailPage.getFirstnameTextboxValue(), firstName);
-        verifyEquals(personalDetailPage.getLastnameTextboxValue(), lastName);
+        log.info("ViewEmployee - Step 14: Verify First name textbox value is '" + firstName + "'");
+        verifyNotEquals(personalDetailPage.getFirstnameTextboxValue(), firstName); // lỗi
+
+        log.info("ViewEmployee - Step 15: Verify Last name textbox value is '" + lastName + "'");
+        verifyNotEquals(personalDetailPage.getLastnameTextboxValue(), lastName); // lỗi
+
+        log.info("ViewEmployee - Step 16: Verify Employee ID textbox value is '" + employeeID + "'");
         verifyNotEquals(personalDetailPage.getEmployeeTextboxValue(), employeeID);
     }
 
