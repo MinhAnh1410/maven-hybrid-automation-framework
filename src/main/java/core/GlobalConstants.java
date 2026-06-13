@@ -12,6 +12,7 @@ public final class GlobalConstants {
     // System Infor
     public static final String PROJECT_PATH = System.getProperty("user.dir");
     public static final String OS_NAME = System.getProperty("os.name");
+    public static final String JAVA_VERSION = System.getProperty("java.version");
 
     // App Infor User
     public static final String DEV_USER_URL = "http://dev.techpanda.org/";
@@ -27,7 +28,7 @@ public final class GlobalConstants {
     public static final String ADMIN_PASSWORD = "guru99com";
 
     // Wait Infor
-    public static final long SHORT_TIMEOUT = 10;
+    public static final long SHORT_TIMEOUT = 3;
     public static final long LONG_TIMEOUT = 30;
 
     // Download/ Upload file

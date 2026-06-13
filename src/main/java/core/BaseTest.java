@@ -7,8 +7,10 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
+import org.testng.annotations.BeforeSuite;
 import reportConfigs.VerificationFailures;
 
+import java.io.File;
 import java.time.Duration;
 import java.util.Random;
 
@@ -125,5 +127,27 @@ public class BaseTest {
             log.info("-------- VERIFY FAILED ----------");
         }
         return pass;
+    }
+
+    private void deleteAllFileInFolder(String folderName) {
+        try {
+            String pathFolderDownload = GlobalConstants.PROJECT_PATH + File.separator + folderName;
+            File file = new File(pathFolderDownload);
+            File[] listOfFiles = file.listFiles();
+            if (listOfFiles.length != 0) {
+                for (int i = 0; i < listOfFiles.length; i++) {
+                    if (listOfFiles[i].isFile() && !listOfFiles[i].getName().equals("environment.properties")) {
+                        new File(listOfFiles[i].toString()).delete();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+    }
+
+    @BeforeSuite
+    public void deleteFileInReport() {
+        deleteAllFileInFolder("htmlAllure");
     }
 }

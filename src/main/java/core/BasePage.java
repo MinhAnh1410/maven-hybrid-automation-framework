@@ -1,5 +1,6 @@
 package core;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
@@ -300,8 +301,75 @@ public class BasePage {
         return getListElement(driver,castParams(locator, value)).size();
     }
 
+    private void overideImplicitWait(WebDriver driver, long timeInSecond) {
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(timeInSecond));
+    }
+
     public boolean isElementDisplay (WebDriver driver, String locator) {
-        return getElement(driver, locator).isDisplayed();
+        try {
+            // TH1: Element có hiển thị ở UI và có xuất hiện trong DOM (Visible/ Displayed) => true
+            // TH2: Element không hiển thị trên UI và có trong DOM (Invisible) => false
+            return getElement(driver, locator).isDisplayed();
+        } catch (NoSuchElementException exception) {
+            return false;
+        }
+    }
+
+    // Cách 2: Sử dụng try-catch ( có overide timeout)
+    public boolean isElementNotPresence (WebDriver driver, String locator) {
+        try {
+            overideImplicitWait(driver, GlobalConstants.SHORT_TIMEOUT);
+            List<WebElement> elements = getListElement(driver, locator);
+            if (elements.isEmpty()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            return false;
+        } finally {
+            overideImplicitWait(driver, GlobalConstants.LONG_TIMEOUT);
+        }
+    }
+
+    // Cách 1: Ko sử dụng try-catch ( có overide timeout)
+    public boolean isElementNonPresence (WebDriver driver, String locator) {
+        overideImplicitWait(driver, GlobalConstants.SHORT_TIMEOUT);
+        List<WebElement> elements = getListElement(driver, locator);
+        overideImplicitWait(driver, GlobalConstants.LONG_TIMEOUT);
+        if (elements.size() == 0) {
+            // TH3: Element không hiển thị trên UI và không có trong DOM (Invisible)
+            return true;
+        } else {
+            // TH1: Element có hiển thị ở UI và có xuất hiện trong DOM (Visible/ Displayed) => true
+            // TH2: Element không hiển thị trên UI và có trong DOM (Invisible) => false
+            return false;
+        }
+    }
+
+    // Cách 3: Ko cần overide timeout/ findElements check empty
+    public boolean isElementNonePresence (WebDriver driver, String locator) {
+        try {
+            overideImplicitWait(driver, 0);
+            return new WebDriverWait(driver, Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT))
+                    .until(ExpectedConditions.numberOfElementsToBe(getByLocator(locator),0)).isEmpty();
+        } catch (Exception e) {
+            return false;
+        } finally {
+            overideImplicitWait(driver, GlobalConstants.LONG_TIMEOUT);
+        }
+    }
+
+    public boolean isElementHidden (WebDriver driver, String locator) {
+        List<WebElement> elements = getListElement(driver, locator);
+        if (elements.size() >= 0 && !elements.getFirst().isDisplayed()) {
+            // TH2: Element không hiển thị trên UI và có trong DOM (Invisible) => false
+            return true;
+        } else {
+            // TH1: Element có hiển thị ở UI và có xuất hiện trong DOM (Visible/ Displayed) => true
+            // TH3: Element không hiển thị trên UI và không có trong DOM (Invisible)
+            return false;
+        }
     }
 
     public boolean isElementDisplay (WebDriver driver, String locator, String... value) {
@@ -524,6 +592,7 @@ public class BasePage {
     }
 
     /*------ Orange HRM Site -------*/
+    @Step("Verify loading icon invisible")
     public boolean isLoadingIconDisappear(WebDriver driver) {
         return waitListElementInvisible(driver,"XPath=//div[contains(@class,'oxd-loading-spinner')]");
     }

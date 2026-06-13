@@ -16,6 +16,7 @@
 
         <selenium.version>LATEST</selenium.version>
         <testng.version>LATEST</testng.version>
+        <aspectj.version>1.9.25.1</aspectj.version>
     </properties>
 
     <!--QUẢN LÍ THƯ VIỆN-->
@@ -39,10 +40,37 @@
         </dependency>
 
         <dependency>
-            <groupId>com.relevantcodes</groupId>
+            <groupId>com.aventstack</groupId>
             <artifactId>extentreports</artifactId>
-            <version>2.41.1</version>
+            <version>5.1.2</version>
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.46</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>chaintest-testng</artifactId>
+            <version>1.0.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>2.35.2</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -78,6 +106,12 @@
                     <suiteXmlFiles>
                         <suitXmlFiles>src/test/resources/orange.xml</suitXmlFiles>
                     </suiteXmlFiles>
+
+                    <!-- Argument -->
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+
                 </configuration>
             </plugin>
         </plugins>

@@ -4,7 +4,10 @@
 <suite name="Orange HRM">
     <listeners>
 <!--        <listener class-name="reportConfigs.MethodListener"></listener>-->
-        <listener class-name="reportConfigs.ExtentReportListener"></listener>
+<!--        <listener class-name="reportConfigs.ExtentReportListener"></listener>-->
+<!--        <listener class-name="reportConfigs.ChainReportListener"></listener>-->
+
+        <listener class-name="reportConfigs.AllureListener"></listener>
 
     </listeners>
 
@@ -16,7 +19,7 @@
     <test name="Run on FIREFOX" preserve-order="true">
         <parameter name= "Browser" value="Firefox"/>
         <classes>
-            <class name="orangehrm.employee.Level_15_ReportHTML"/>
+            <class name="orangehrm.employee.Level_19_Undisplayed"/>
         </classes>
     </test>
 

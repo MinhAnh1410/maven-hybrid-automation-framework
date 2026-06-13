@@ -1,59 +1,56 @@
 package reportConfigs;
 
-import java.io.File;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
 import core.BaseTest;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.testng.*;
-import org.testng.xml.XmlSuite;
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.LogStatus;
+
+import static reportConfigs.ExtentManager.getTest;
 
 public class ExtentReportListener implements ITestListener {
 
     @Override
-    public void onStart(ITestContext context) {
+    public void onStart(ITestContext iTestContext) {
 
     }
 
     @Override
-    public void onFinish(ITestContext context) {
-        ExtentManager.endTest();
-        ExtentManager.getReporter().flush();
+    public void onFinish(ITestContext iTestContext) {
+        ExtentManager.extentReports.flush();
     }
 
     @Override
-    public void onTestStart(ITestResult result) {
+    public void onTestStart(ITestResult iTestResult) {
 
     }
 
     @Override
-    public void onTestSuccess(ITestResult result) {
-        ExtentManager.getTest().log(LogStatus.PASS, "Test Passed");
+    public void onTestSuccess(ITestResult iTestResult) {
+        getTest().log(Status.PASS, MarkupHelper.createLabel(iTestResult.getName() + " - Passed", ExtentColor.GREEN));
     }
 
     @Override
-    public void onTestFailure(ITestResult result) {
-        Object testClass = result.getInstance();
-        WebDriver webDriver = ((BaseTest) testClass).getDriver();
-        String base64Screenshot = "data:image/png;base64," + ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.BASE64);
-        ExtentManager.getTest().log(LogStatus.FAIL, "Test Failed", ExtentManager.getTest().addBase64ScreenShot(base64Screenshot));
+    public void onTestFailure(ITestResult iTestResult) {
+        Object testClass = iTestResult.getInstance();
+        WebDriver driver = ((BaseTest) testClass).getDriver();
+
+        String base64Screenshot = "data:image/png;base64," + ((TakesScreenshot) driver).getScreenshotAs(OutputType.BASE64);
+        getTest().log(Status.FAIL, "Screenshot and Exception", iTestResult.getThrowable(),
+                getTest().addScreenCaptureFromBase64String(base64Screenshot).getModel().getMedia().get(0));
+        getTest().log(Status.FAIL, MarkupHelper.createLabel(iTestResult.getName() + " - Failed", ExtentColor.RED));
     }
 
     @Override
-    public void onTestSkipped(ITestResult result) {
-        ExtentManager.getTest().log(LogStatus.SKIP, "Test Skipped");
+    public void onTestSkipped(ITestResult iTestResult) {
+        getTest().log(Status.SKIP, MarkupHelper.createLabel(iTestResult.getName() + " - Skipped", ExtentColor.ORANGE));
     }
 
     @Override
-    public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+    public void onTestFailedButWithinSuccessPercentage(ITestResult iTestResult) {
+        getTest().log(Status.FAIL, MarkupHelper.createLabel(iTestResult.getName() + " - Failed with Percentage", ExtentColor.RED));
     }
-
 }

@@ -1,6 +1,7 @@
 package pageObjects.orangehrm;
 
 import core.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageObjects.PageGeneration;
 import pageObjects.PageGenerator;
@@ -13,11 +14,13 @@ public class EmployeeListPO extends BasePage {
         this.driver = driver;
     }
 
+    @Step("Verify PIM header is displayed")
     public boolean isPIMHeaderDisplayed() {
         waitElementVisible(driver, EmployeeListUI.PIM_HEADER);
         return isElementDisplay(driver, EmployeeListUI.PIM_HEADER);
     }
 
+    @Step("Click to Employee List menu link")
     public AddEmployeePO clickToAddEmployeeButton() {
         waitElementClickable(driver, EmployeeListUI.ADD_EMPLOYEE_BUTTON);
         clickToElement(driver, EmployeeListUI.ADD_EMPLOYEE_BUTTON);

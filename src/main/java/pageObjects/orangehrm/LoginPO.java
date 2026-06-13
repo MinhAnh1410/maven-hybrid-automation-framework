@@ -1,16 +1,24 @@
 package pageObjects.orangehrm;
 
+import components.ButtonComponent;
+import components.TextboxComponent;
+import core.BaseComponent;
 import core.BasePage;
+import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import pageObjects.PageGeneration;
-import pageObjects.PageGenerator;
 import pageUIs.orangehrm.LoginUI;
 
-public class LoginPO extends BasePage {
+public class LoginPO extends BaseComponent {
     private WebDriver driver;
+    private TextboxComponent textboxComponent;
+    private ButtonComponent buttonComponent;
 
     public LoginPO(WebDriver driver) {
+        super(driver);
         this.driver = driver;
+        textboxComponent = new TextboxComponent (this.driver);
+        buttonComponent = new ButtonComponent (this.driver);
     }
     // hàm khởi tạo - constructor method
     // hàm sẽ được gọi tới đầu tiên khi class được new loginPage = new LoginPO(driver);
@@ -18,17 +26,20 @@ public class LoginPO extends BasePage {
     // hàm khỏi tạo bắt buộc cùng tên class và ko cos kiểu trả về
     // 1 class có thể có 1/ nhiều hàm khởi tạo
 
+    @Step("Enter to Username textbox with value is '{0}'")
     public void enterToUsernameTextbox(String userName) {
         // gọi các hàm trong BasePage để sử dụng, tránh viết đi viết lại
         waitElementVisible(driver, LoginUI.USERNAME_TEXTBOX);
         sendkeyToElement(driver, LoginUI.USERNAME_TEXTBOX, userName); // thông qua biến static để gọi đến hằng số đã khai báo
     }
 
+    @Step("Enter to Password textbox with value is '{0}'")
     public void enterToPasswordTextbox(String password) {
         waitElementVisible(driver, LoginUI.PASSWORD_TEXTBOX);
         sendkeyToElement(driver, LoginUI.PASSWORD_TEXTBOX, password);
     }
 
+    @Step("Click to Login button")
     public DashboardPO clickToLoginButton() {
         waitElementClickable(driver, LoginUI.LOGIN_BUTTON);
         clickToElement(driver, LoginUI.LOGIN_BUTTON);
@@ -41,5 +52,12 @@ public class LoginPO extends BasePage {
 
         // cách 4: Viết hàm java generic để truyền PO vào khởi tạo
         return PageGeneration.getPage(DashboardPO.class, driver);
+    }
+
+    public void loginToApplication(String username, String password) {
+        textboxComponent.enterToTextboxByName("username", username);
+        textboxComponent.enterToTextboxByName("password", password);
+        buttonComponent.clickToButtonByText("Login");
+
     }
 }

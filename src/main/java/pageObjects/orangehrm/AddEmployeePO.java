@@ -1,14 +1,21 @@
 package pageObjects.orangehrm;
 
-import core.BasePage;
+import components.ButtonComponent;
+import components.TextboxComponent;
+import core.BaseComponent;
 import org.openqa.selenium.WebDriver;
 import pageUIs.orangehrm.AddEmployeeUI;
 
-public class AddEmployeePO extends BasePage {
+public class AddEmployeePO extends BaseComponent {
     private WebDriver driver;
+    private TextboxComponent textboxComponent;
+    private ButtonComponent buttonComponent;
 
     public AddEmployeePO(WebDriver driver) {
+        super(driver);
         this.driver = driver;
+        textboxComponent = new TextboxComponent(driver);
+        buttonComponent = new ButtonComponent(driver);
     }
 
     public void enterToFirstNameTextbox(String firstName) {
@@ -32,8 +39,8 @@ public class AddEmployeePO extends BasePage {
     }
 
     public void enterToUsernameTextbox(String emailAddress) {
-        waitElementVisible(driver, AddEmployeeUI.USER_TEXTBOX);
-        sendkeyToElement(driver,AddEmployeeUI.USER_TEXTBOX, emailAddress);
+        waitElementVisible(driver, AddEmployeeUI.USERNAME_TEXTBOX);
+        sendkeyToElement(driver,AddEmployeeUI.USERNAME_TEXTBOX, emailAddress);
     }
 
     public void enterToPasswordTextbox(String password) {
@@ -54,5 +61,53 @@ public class AddEmployeePO extends BasePage {
     public boolean isSuccessfullySaveMessageDisplayed() {
         waitListElementVisible(driver, AddEmployeeUI.SUCCESSFULL_SAVE_MESSAGE);
         return isElementDisplay(driver, AddEmployeeUI.SUCCESSFULL_SAVE_MESSAGE);
+    }
+
+    public String getEmployeeID() {
+        return textboxComponent.getTextboxValueByLabel("Employee Id");
+    }
+
+
+    public void createNewEmployee(String firstName, String lastName, String emailAddress, String password) {
+        textboxComponent.enterToTextboxByName("firstName", firstName);
+        textboxComponent.enterToTextboxByName("lastName", lastName);
+        clickToCreateLoginDetailCheckbox();
+        textboxComponent.enterToTextboxByLabel("Username", emailAddress);
+        textboxComponent.enterToTextboxByLabel("Password", password);
+        textboxComponent.enterToTextboxByLabel("Confirm Password", firstName);
+        buttonComponent.clickToButtonByText("Save");
+        sleepInSecond(2);
+    }
+
+    public boolean isPIMModuleTextDisplayed() {
+        //waitElementVisible(driver, AddEmployeeUI.PIM_MODULE_TEXT);
+        return isElementDisplay(driver, AddEmployeeUI.PIM_MODULE_TEXT);
+    }
+
+    public void clickToMainMenuSearchButton() {
+        waitElementClickable(driver, AddEmployeeUI.MAIN_MENU_BUTTON);
+        clickToElement(driver, AddEmployeeUI.MAIN_MENU_BUTTON);
+        sleepInSecond(5);
+    }
+
+    public boolean isUsernameTextboxNonPresence() {
+        // waitElementVisible(driver, AddEmployeeUI.USERNAME_TEXTBOX);
+        return isElementNonPresence(driver, AddEmployeeUI.USERNAME_TEXTBOX);
+    }
+
+    public boolean isPasswordTextboxNonPresence() {
+        return isElementNonePresence(driver, AddEmployeeUI.PASSWORD_TEXTBOX);
+    }
+
+    public boolean isConfirmPasswordTextboxNonPresence() {
+        return isElementNotPresence(driver, AddEmployeeUI.CONFIRM_PASSWORD_TEXTBOX);
+    }
+
+    public boolean isUsernameTextboxDisplayed() {
+        return isElementDisplay(driver, AddEmployeeUI.USERNAME_TEXTBOX);
+    }
+
+    public boolean isPIMModuleTextHidden() {
+        return isElementHidden(driver, AddEmployeeUI.PIM_MODULE_TEXT);
     }
 }

@@ -1,5 +1,6 @@
 package orangehrm.employee;
 
+import com.aventstack.chaintest.plugins.ChainTestListener;
 import com.aventstack.extentreports.Status;
 import core.BasePage;
 import core.BaseTest;
@@ -23,7 +24,7 @@ import reportConfigs.ExtentManager;
 
 import java.lang.reflect.Method;
 
-public class Level_15_ReportHTML extends BaseTest {
+public class Level_16_ChainTestHTML extends BaseTest {
     private WebDriver driver;
     private BasePage basePage = BasePage.getBasePage();
     private String adminUsername, adminPassword;
@@ -52,90 +53,86 @@ public class Level_15_ReportHTML extends BaseTest {
     }
 
     @Test
-    public void Employee_01_NewEmployee(Method method) {
-
-        ExtentManager.startTest(method.getName() + this.browserName.toUpperCase(), "Employee_01_NewEmployee");
-
-        ExtentManager.getTest().log(Status.INFO, "NewEmployee - Step 01: Enter to Username textbox with value is '"+ adminUsername + "'");
+    public void Employee_01_NewEmployee() {
+        
+        ChainTestListener.log( "NewEmployee - Step 01: Enter to Username textbox with value is '"+ adminUsername + "'");
         loginPage.enterToUsernameTextbox(adminUsername);
 
-        ExtentManager.getTest().log(Status.INFO, "NewEmployee - Step 02: Enter to Password textbox with value is '"+ adminPassword + "'");
+        ChainTestListener.log( "NewEmployee - Step 02: Enter to Password textbox with value is '"+ adminPassword + "'");
         loginPage.enterToPasswordTextbox(adminPassword);
 
-        ExtentManager.getTest().log(Status.INFO, "NewEmployee - Step 03: Click to Login button");
+        ChainTestListener.log( "NewEmployee - Step 03: Click to Login button");
         dashboardPage = loginPage.clickToLoginButton();
 
-        ExtentManager.getTest().log(Status.INFO, "NewEmployee - Step 04: Verify loading icon invisible");
+        ChainTestListener.log( "NewEmployee - Step 04: Verify loading icon invisible");
         Assert.assertTrue(dashboardPage.isLoadingIconDisappear(driver));
 
-        ExtentManager.getTest().log(Status.INFO, "NewEmployee - Step 05: Verify Dashboard header is displayed");
+        ChainTestListener.log( "NewEmployee - Step 05: Verify Dashboard header is displayed");
         Assert.assertFalse(dashboardPage.isDashboardHeaderDisplayed()); // lỗi
 
-        ExtentManager.getTest().log(Status.INFO, "NewEmployee - Step 06: Click to PIM menu link");
+        ChainTestListener.log( "NewEmployee - Step 06: Click to PIM menu link");
         employeeListPage = dashboardPage.clickToPIMModule();
 
-        ExtentManager.getTest().log(Status.INFO, "NewEmployee - Step 07: Verify loading icon invisible");
+        ChainTestListener.log( "NewEmployee - Step 07: Verify loading icon invisible");
         Assert.assertTrue(employeeListPage.isLoadingIconDisappear(driver));
 
-        ExtentManager.getTest().log(Status.INFO, "NewEmployee - Step 08: Verify PIM header is displayed");
+        ChainTestListener.log( "NewEmployee - Step 08: Verify PIM header is displayed");
         Assert.assertFalse(employeeListPage.isPIMHeaderDisplayed()); // lỗi
 
     }
 
     @Test
-    public void Employee_02_ViewEmployee(Method method) {
+    public void Employee_02_ViewEmployee() {
 
-        ExtentManager.startTest(method.getName() + this.browserName.toUpperCase(), "Employee_02_ViewEmployee");
-
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 01: Click to Employee List menu link");
+        ChainTestListener.log( "ViewEmployee - Step 01: Click to Employee List menu link");
         addEmployeePage = employeeListPage.clickToAddEmployeeButton();
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 02: Verify loading icon invisible");
+        ChainTestListener.log( "ViewEmployee - Step 02: Verify loading icon invisible");
         Assert.assertTrue(addEmployeePage.isLoadingIconDisappear(driver));
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 03: Enter to First name textbox with value is '"+ firstName + "'");
+        ChainTestListener.log( "ViewEmployee - Step 03: Enter to First name textbox with value is '"+ firstName + "'");
         addEmployeePage.enterToFirstNameTextbox(firstName);
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 04: Enter to First name textbox with value is '"+ lastName + "'");
+        ChainTestListener.log( "ViewEmployee - Step 04: Enter to First name textbox with value is '"+ lastName + "'");
         addEmployeePage.enterToLastNameTextbox(lastName);
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 05: Get Employee ID value");
+        ChainTestListener.log( "ViewEmployee - Step 05: Get Employee ID value");
         employeeID = addEmployeePage.getEmployeeIDValue();
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 06: Click to Create Login Details checkbox");
+        ChainTestListener.log( "ViewEmployee - Step 06: Click to Create Login Details checkbox");
         addEmployeePage.clickToCreateLoginDetailCheckbox();
         addEmployeePage.sleepInSecond(2);
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 07: Enter to Email textbox with value is '"+ emailAddress + "'");
+        ChainTestListener.log( "ViewEmployee - Step 07: Enter to Email textbox with value is '"+ emailAddress + "'");
         addEmployeePage.enterToUsernameTextbox(emailAddress);
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 08: Enter to Password textbox with value is '"+ password + "'");
+        ChainTestListener.log( "ViewEmployee - Step 08: Enter to Password textbox with value is '"+ password + "'");
         addEmployeePage.enterToPasswordTextbox(password);
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 09: Enter to Confirm Password textbox with value is '"+ password + "'");
+        ChainTestListener.log( "ViewEmployee - Step 09: Enter to Confirm Password textbox with value is '"+ password + "'");
         addEmployeePage.enterToConfirmPasswordTextbox(password);
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 10: Click to Save button");
+        ChainTestListener.log( "ViewEmployee - Step 10: Click to Save button");
         addEmployeePage.clickToSaveButton();
         addEmployeePage.sleepInSecond(2);
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 11: Verify Successfully Saved message is displayed");
+        ChainTestListener.log( "ViewEmployee - Step 11: Verify Successfully Saved message is displayed");
         Assert.assertFalse(addEmployeePage.isSuccessfullySaveMessageDisplayed()); // lỗi
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 12: Navigate to Personal Details page");
+        ChainTestListener.log( "ViewEmployee - Step 12: Navigate to Personal Details page");
         personalDetailPage = PageGenerator.getPersonalDetailPage(driver);
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 13: Verify loading icon invisible");
+        ChainTestListener.log( "ViewEmployee - Step 13: Verify loading icon invisible");
         Assert.assertTrue(personalDetailPage.isLoadingIconDisappear(driver));
         Assert.assertTrue(personalDetailPage.isLoadingIconDisappear(driver));
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 14: Verify First name textbox value is '" + firstName + "'");
+        ChainTestListener.log( "ViewEmployee - Step 14: Verify First name textbox value is '" + firstName + "'");
         Assert.assertNotEquals(personalDetailPage.getFirstnameTextboxValue(), firstName); // lỗi
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 15: Verify Last name textbox value is '" + lastName + "'");
+        ChainTestListener.log( "ViewEmployee - Step 15: Verify Last name textbox value is '" + lastName + "'");
         Assert.assertNotEquals(personalDetailPage.getLastnameTextboxValue(), lastName); // lỗi
 
-        ExtentManager.getTest().log(Status.INFO, "ViewEmployee - Step 16: Verify Employee ID textbox value is '" + employeeID + "'");
+        ChainTestListener.log( "ViewEmployee - Step 16: Verify Employee ID textbox value is '" + employeeID + "'");
         Assert.assertNotEquals(personalDetailPage.getEmployeeTextboxValue(), employeeID);
 
     }

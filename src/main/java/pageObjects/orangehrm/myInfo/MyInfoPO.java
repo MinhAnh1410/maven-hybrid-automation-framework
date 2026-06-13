@@ -1,15 +1,17 @@
 package pageObjects.orangehrm.myInfo;
 
+import core.BaseComponent;
 import core.BasePage;
 import org.openqa.selenium.WebDriver;
 import pageObjects.PageGeneration;
 import pageUIs.orangehrm.myInfo.MyInfoPageUI;
 
-public class MyInfoPO extends BasePage {
+public class MyInfoPO extends BaseComponent {
     private WebDriver driver;
     private MyInfoPO myInfoPage;
 
     public MyInfoPO(WebDriver driver) {
+        super(driver);
         this.driver = driver;
     }
 
