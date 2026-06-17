@@ -632,6 +632,17 @@ public class BasePage {
         return PageGeneration.getPage(AdminLoginPO.class, driver);
     }
 
+    public Set<Cookie> getCookies (WebDriver driver) {
+        return driver.manage().getCookies();
+    }
+
+    public void setCookies (WebDriver driver, Set<Cookie> cookies) {
+        for (Cookie cookie : cookies) {
+            driver.manage().addCookie(cookie);
+        }
+        sleepInSecond(3);
+    }
+
     private Duration shortTimeout = Duration.ofSeconds(GlobalConstants.SHORT_TIMEOUT);
     private Duration longTimeout = Duration.ofSeconds(GlobalConstants.LONG_TIMEOUT);
 }

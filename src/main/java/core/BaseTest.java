@@ -3,6 +3,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
@@ -51,7 +52,9 @@ public class BaseTest {
         BrowserList browserList = BrowserList.valueOf(browserName.toUpperCase());
         switch (browserList){
             case CHROME:
-                driver = new ChromeDriver();
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--unsafely-treat-insecure-origin-as-secure=" + url);
+                driver = new ChromeDriver(options);
                 break;
             case EDGE:
                 driver = new EdgeDriver();

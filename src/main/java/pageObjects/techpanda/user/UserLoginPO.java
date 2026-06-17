@@ -28,4 +28,10 @@ public class UserLoginPO extends BasePage {
         acceptToAlert(driver);
         return PageGeneration.getPage(UserMyAccountPO.class, driver);
     }
+
+    public UserRegisterPO openRegisterPage() {
+        waitElementClickable(driver, UserLoginPageUI.CREATE_AN_ACCOUNT_BTN);
+        clickToElement(driver, UserLoginPageUI.CREATE_AN_ACCOUNT_BTN);
+        return PageGeneration.getPage(UserRegisterPO.class, driver);
+    }
 }
